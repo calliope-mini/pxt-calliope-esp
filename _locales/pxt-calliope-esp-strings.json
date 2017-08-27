@@ -1,0 +1,18 @@
+{
+  "esp8266.connect|block": "connect to the wifi",
+  "esp8266.init|block": "initialize |TX %tx|RX %rx|at baud rate %rate",
+  "esp8266|block": "esp8266",
+  "modem.enableDebug|block": "enable DEBUG %debug",
+  "modem.expectOK|block": "check AT %command|response OK?",
+  "modem.init|block": "initialize Modem|TX %tx|RX %rx|at baud rate %rate",
+  "modem.pushAT|block": "send AT %command",
+  "modem.receiveResponse|block": "wait for response %cond",
+  "modem.sendAT|block": "send AT %command and receive",
+  "modem|block": "modem",
+  "serial.resetSerial|block": "serial reset",
+  "serial.setReceiveBufferSize|block": "serial receive buffer size %size",
+  "serial|block": "serial",
+  "{id:category}Esp8266": "Esp8266",
+  "{id:category}Modem": "Modem",
+  "{id:category}Serial": "Serial"
+}

@@ -1,0 +1,23 @@
+{
+  "esp8266": "Functions for the ESP8266 Wifi module.",
+  "esp8266.connect": "Connect to the wifi.",
+  "esp8266.init": "Initialize ESP8266 module. The serial port and generic settings.",
+  "esp8266.init|param|rate": "the new baud rate, eg: BaudRate.BaudRate115200",
+  "esp8266.init|param|rx": "the new reception pin, eg: SerialPin.C16",
+  "esp8266.init|param|tx": "the new transmission pins, eg: SerialPin.C17",
+  "modem": "Modem functionality to send and received AT commands and responses.\n* @author Matthias L. Jugel",
+  "modem.enableDebug": "Enable AT command debug.",
+  "modem.expectOK": "Send an AT command to the modem module and expect OK. Just provide the actual\ncommand, not the AT prefix, like this AT(\"+CGMI?\"). This function\nonly returns whether the command was executed successful or not.",
+  "modem.expectOK|param|command": "the command to be sent without AT prefix",
+  "modem.init": "Initialize the modem with the corresponding serial pins and baud rate.\n@param {SerialPin} tx the modem transmission pins, eg: SerialPin.C17\n@param {SerialPin} rx the modem reception pin, eg: SerialPin.C16\n@param {BaudRate} rate the new baud rate, eg: BaudRate.BaudRate9600",
+  "modem.log": "Log a message to the USB console log.\n@param {string} prefix a prefix to be prepended to the line\n@param {string} message the message to log",
+  "modem.logArray": "Log an array of messages to the USB console log.\n@param {string} prefix a prefix to be prepended to the line\n@param {string} messages the messages to log to the console",
+  "modem.pushAT": "Send an AT command to the modem module. Just provide the actual\ncommand, not the AT prefix, like this AT(\"+CGMI?\"). Ignores the\nAT command response completely",
+  "modem.pushAT|param|command": "the command to be sent without AT prefix",
+  "modem.receiveResponse": "Wait for a response from the modem and collect all lines until the\ncondition returns true. Returns all received lines.\n@param {(line: string) => boolean} cond\n@returns {Array<string>} an array of lines received",
+  "modem.sendAT": "Send an AT command and expect either OK or ERROR response.\nReturns all response lines.\n@param {string} command the command to send without AT prefix\n@returns {Array<string>} an array of lines received",
+  "serial": "Reading and writing data over a serial connection.\n\nExtensions to the serial module.\n* @author Matthias L. Jugel",
+  "serial.resetSerial": "Reset serial back to USBTX/USBRX.",
+  "serial.setReceiveBufferSize": "Set serial receive buffer size.",
+  "serial.setReceiveBufferSize|param|size": "the new size of the receive buffer, eg: 20"
+}

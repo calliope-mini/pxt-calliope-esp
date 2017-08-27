@@ -1,0 +1,24 @@
+{
+    "name": "pxt-calliope-esp",
+    "version": "0.0.1",
+    "description": "ESP8622 Wifi Module",
+    "license": "MIT",
+    "dependencies": {
+        "core": "*"
+    },
+    "files": [
+        "README.md",
+        "esp8266.ts",
+        "modem.ts",
+        "ext_serial.cpp",
+        "ext_serial.ts"
+    ],
+    "testFiles": [
+        "tests.ts"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/calliope-mini/pxt-calliope-esp.git"
+    },
+    "public": true
+}
