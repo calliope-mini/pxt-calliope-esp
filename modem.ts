@@ -46,7 +46,7 @@ namespace modem {
     //% parts="modem"
     export function pushAT(command: string): void {
         if (DEBUG) log("+++", "AT" + command);
-        serial.writeString("\r\nAT" + command + "\r\n");
+        serial.writeString("AT" + command + "\r\n");
     }
 
     /**
