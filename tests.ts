@@ -36,8 +36,8 @@ assert("modem working", modem.expectOK(""));
 assert("disable echo", modem.expectOK("E0"));
 let gmr = modem.sendAT("+GMR");
 assert("modem identification", gmr.length == 4 && gmr[gmr.length-1] == "OK");
-assert("AT version is 0.21.0.0", gmr[0] == "AT version:1.3.0.0(Jul 14 2016 18:54:01)");
-assert("SDK version is 0.9.5", gmr[1] == "SDK version:2.0.0(656edbf)");
+assert("AT version:1.3.0.0", gmr[0].substr(0, 18) == "AT version:1.3.0.0");
+assert("SDK version:2.0.0", gmr[1].substr(0, 17) == "SDK version:2.0.0");
 
 // attach to the wifi network
 assert("wifi set mode", modem.expectOK("+CWMODE=1"));
@@ -75,8 +75,18 @@ esp8266.sendTCP(SERVER, PORT, MESSAGE);
 assert("TCP send", esp8266.sendOk());
 esp8266.sendUDP(SERVER, PORT+1, MESSAGE);
 assert("UDP send", esp8266.sendOk());
+esp8266.detach();
+assert("network detached", !esp8266.isAttached());
+
+// try high level functions
+esp8266.attach(SSID, PASSWORD);
+assert("network attach", esp8266.isAttached());
+esp8266.setServer(SERVER, PORT+1);
+esp8266.sendNumber("light", input.lightLevel());
+assert("message send", esp8266.sendOk());
 
 esp8266.detach();
+assert("network detached", !esp8266.isAttached());
 
 serial.resetSerial();
 

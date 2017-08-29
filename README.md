@@ -23,8 +23,8 @@ TEST START
 TEST: modem working: OK
 TEST: disable echo: OK
 TEST: modem identification: OK
-TEST: AT version is 0.21.0.0: OK
-TEST: SDK version is 0.9.5: OK
+TEST: AT version:1.3.0.0: OK
+TEST: SDK version:2.0.0: OK
 TEST: wifi set mode: OK
 TEST: wifi mode: OK
 TEST: wifi connect: OK
@@ -40,6 +40,10 @@ TEST: network not found: OK
 TEST: network attach: OK
 TEST: TCP send: OK
 TEST: UDP send: OK
+TEST: network detached: OK
+TEST: network attach: OK
+TEST: message send: OK
+TEST: network detached: OK
 TEST FINISHED OK
 ```
 

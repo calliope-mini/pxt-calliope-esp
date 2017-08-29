@@ -12,6 +12,10 @@ enum MessageType {
 //% weight=2 color=#1174EE icon="\uf1eb"
 //% parts="ESP8266    
 namespace esp8266 {
+    import logArray = modem.logArray;
+    let SERVER: string = null;
+    let PORT = 9090;
+    let ENCRYPTED = false;
     let ERROR = false;
 
     /**
@@ -66,7 +70,7 @@ namespace esp8266 {
     //% parts="esp8266"
     export function isAttached(ssid: string = null): boolean {
         let r = modem.sendAT("+CWJAP?");
-        return r[0] != "No AP" && r[r.length-1] == "OK";
+        return r.length >= 2 && r[r.length-2] != "No AP" && r[r.length-1] == "OK";
 
     }
 
@@ -91,9 +95,8 @@ namespace esp8266 {
     //% blockExternalInputs=1
     //% parts="esp8266"
     export function sendTCP(address: string, port: number, message: string): void {
-        ERROR = !send(MessageType.TCP, address, port, message);
+        send(MessageType.TCP, address, port, message);
     }
-
 
     /**
      * Send a UDP message to the server.
@@ -106,7 +109,7 @@ namespace esp8266 {
     //% blockExternalInputs=1
     //% parts="esp8266"
     export function sendUDP(address: string, port: number, message: string): void {
-        ERROR = !send(MessageType.UDP, address, port, message);
+        send(MessageType.UDP, address, port, message);
     }
 
     /**
@@ -115,14 +118,13 @@ namespace esp8266 {
      * @param {string} address the server address
      * @param {number} port the server port to send to, eg: 8080
      * @param {string} message the actual data to send
-     * @returns {boolean} whether the send operation succeeded
      */
     //% weight=70
-    //% blockId=esp8266_sendudp block="send raw message|type %type|message %message|receive port %receivePort"
+    //% blockId=esp8266_send block="send raw message|type %type|server %address|port %port|message %message"
     //% blockExternalInputs=1
     //% parts="esp8266"
-    export function send(type: MessageType, address: string, port: number, message: string): boolean {
-        let sendok = false;
+    export function send(type: MessageType, address: string, port: number, message: string): void {
+        ERROR = true;
         let messageType = "";
         switch(type) {
             case MessageType.TCP: messageType = "TCP"; break;
@@ -136,12 +138,110 @@ namespace esp8266 {
                 serial.writeString(message);
                 modem.receiveResponse((line: string) => {
                     // should be line == "SEND OK", but the simulator breaks, as serial.read() only returns OK
-                    return line.length == 7 && line.substr(5, 2) == "OK";
+                    return line.substr(line.length-2, 2) == "OK";
                 });
-                sendok = modem.expectOK("+CIPCLOSE");
+                ERROR = !modem.expectOK("+CIPCLOSE");
             }
         }
-        return sendok;
+    }
+
+
+    /**
+     * Configure the server to use for the NB-IoT messaging.
+     * @param host the IP address of a server to send messages to
+     * @param port the port to send messages to, eg: 9090
+     */
+    //% weight=80
+    //% blockId=bc95_setserver block="set server |address %host|port %port"
+    //% parts="bc95"
+    export function setServer(host: string, port: number): void {
+        SERVER = host;
+        PORT = port;
+    }
+
+    /**
+     * Send a number to the backend server. Encodes key/value as a json message.
+     */
+    //% weight=60
+    //% blockId=esp8266_sendNumber block="send number message|key %key|value %n"
+    //% blockExternalInputs=1
+    //% parts="esp8266"
+    export function sendNumber(key: string, value: number): void {
+        sendEncoded("{\"" + key + "\":" + value + "}");
+    }
+
+    /**
+     * Send a string to the backend server. Encodes key/value as a json message.
+     */
+    //% weight=60
+    //% blockId=esp8266_sendString block="send string message|key %key|value %n"
+    //% blockExternalInputs=1
+    //% parts="esp8266"
+    export function sendString(key: string, value: string): void {
+        sendEncoded("{\"" + key + "\":\"" + value + "\"}");
+    }
+
+    /**
+     * Send the actual message, encoded. Data is encoded in message pack format:
+     * INT[DeviceId]BYTES[Message]. The maximum message size is 504 bytes.
+     * If messages are encrypted, the key is 16 bytes: [SECRET,ID,SECRET,ID].
+     * @param message the message to send
+     */
+    //% weight=55
+    //% blockId=esp8266_send block="send raw message|message %message"
+    //% blockExternalInputs=1
+    //% advanced=true
+    //% parts="esp8266"
+    export function sendEncoded(message: string): void {
+        ERROR = true;
+        if (SERVER != null && SERVER.length > 0) {
+            if (modem.expectOK("+CIPMODE=0")) {
+                let packetLength = 0;
+
+                let encoded = "";
+                if (message.length < 32) {
+                    // messages shorter than 32 bytes will have a single 0xA0 + length marker byte
+                    packetLength = message.length + 1;
+                    encoded = String.fromCharCode(0xA0 + message.length);
+                } else if (message.length < 256) {
+                    // messages shorter than 255 bytes have two bytes as marker: 0xd9 and length
+                    packetLength = message.length + 2;
+                    encoded += String.fromCharCode(0xD9) + String.fromCharCode(message.length);
+                } else if (message.length < 505) {
+                    // messages shorter than 255 bytes have two bytes as marker: 0xd9 and a two byte length
+                    packetLength = message.length + 3;
+                    encoded += String.fromCharCode(0xD9) + String.fromCharCode(message.length >> 8) + String.fromCharCode(message.length & 0xff);
+                } else {
+                    // the BC95 module only supports a maximum payload of 512 bytes!
+                    ERROR = true;
+                    return;
+                }
+                // add actual message
+                encoded += message;
+
+                // encrypt message, if needed, padding w/ 0x80 and zeros
+                if (ENCRYPTED) {
+                    encoded = encrypt(encoded + String.fromCharCode(0x80));
+                    packetLength = encoded.length;
+                }
+
+                // encode the package in messagepack format
+                let header = String.fromCharCode(0xCE) + numberToString(getDeviceId(1));
+                packetLength += 5;
+
+                if (modem.expectOK("+CIPSTART=\"UDP\",\"" + SERVER + "\"," + PORT)) {
+                    modem.pushAT("+CIPSEND=" + packetLength);
+                    serial.read(">");
+                    serial.writeString(header + encoded);
+                    modem.receiveResponse((line: string) => {
+                        // should be line == "SEND OK", but the simulator breaks, as serial.read() only returns OK
+                        return line.substr(line.length-2, 2) == "OK";
+                    });
+                    ERROR = !modem.expectOK("+CIPCLOSE");
+                }
+            }
+
+        }
     }
 
     /**
@@ -158,4 +258,37 @@ namespace esp8266 {
         } else return true;
     }
 
+    /**
+     * Set encryption mode. Whether data should be AES encrypted. See #showDeviceInfo
+     * how to identify the device ID and secret.
+     * ATTENTION: Only works if BLUETOOTH is enabled!
+     * @param encrypted whether the data should be encrypted, eg: false
+     */
+    //% weight=20
+    //% blockId=bc95_setencrypted block="encrypt messages %encrypted"
+    //% advanced=true
+    //% parts="bc95"
+    export function setEncryption(encrypted: boolean = false) {
+        ENCRYPTED = encrypted;
+    }
+
+    // converts a number into a binary string representation
+    function numberToString(n: number): string {
+        return String.fromCharCode((n >> 24) & 0xff) +
+            String.fromCharCode((n >> 16) & 0xff) +
+            String.fromCharCode((n >> 8) & 0xff) +
+            String.fromCharCode(n & 0xff);
+    }
+
+    //% shim=esp8266::getDeviceId
+    export function getDeviceId(n: number): number {
+        // dummy value for the simulator
+        return 0;
+    }
+
+    //% shim=esp8266::encrypt
+    export function encrypt(data: string): string {
+        // dummy return
+        return "???";
+    }
 }
