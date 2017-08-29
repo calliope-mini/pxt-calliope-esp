@@ -22,7 +22,7 @@
   "serial.resetSerial|block": "seriellen Port zurücksetzen",
   "serial.setReceiveBufferSize|block": "setze Empfangspuffergrösse %size",
   "serial|block": "seriell",
-  "{id:category}Esp8266": "Esp8266",
+  "{id:category}Esp8266": "ESP8266",
   "{id:category}Modem": "Modem",
   "{id:category}Serial": "Seriell"
 }

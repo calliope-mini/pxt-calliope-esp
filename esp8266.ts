@@ -9,8 +9,8 @@ enum MessageType {
     TCP
 }
 
-//% weight=2 color=#1174EE icon="\uf1eb"
-//% parts="ESP8266    
+//% weight=2 color=#1174EE icon="\uf1eb" block="ESP8266"
+//% parts="esp8266"
 namespace esp8266 {
     import logArray = modem.logArray;
     let SERVER: string = null;
@@ -27,7 +27,7 @@ namespace esp8266 {
      * @param rate the new baud rate, eg: BaudRate.BaudRate115200
      */
     //% weight=210
-    //% blockId=ESP8266_init block="initialize ESP8266|TX %tx|RX %rx|at baud rate %rate"
+    //% blockId=esp8266_init block="initialize ESP8266|TX %tx|RX %rx|at baud rate %rate"
     //% blockExternalInputs=1
     //% parts="esp8266"
     export function init(tx: SerialPin, rx: SerialPin, rate: BaudRate): void {
@@ -50,7 +50,7 @@ namespace esp8266 {
      * Connect to the wifi network.
      */
     //% weight=209
-    //% blockId=ESP8266_attach block="connect to the wifi network|SSID %ssid|password %password"
+    //% blockId=esp8266_attach block="connect to the wifi network|SSID %ssid|password %password"
     //% blockExternalInputs=1
     //% parts="esp8266"
     export function attach(ssid: string, password: string): void {
@@ -66,7 +66,7 @@ namespace esp8266 {
      * Check if we are attached to the wifi network.
      */
     //% weight=209
-    //% blockId=ESP8266_isattached block="network attached?"
+    //% blockId=esp8266_isattached block="network attached?"
     //% parts="esp8266"
     export function isAttached(ssid: string = null): boolean {
         let r = modem.sendAT("+CWJAP?");
@@ -78,7 +78,7 @@ namespace esp8266 {
      * Disconnect from the wifi network.
      */
     //% weight=209
-    //% blockId=ESP8266_detach block="disconnect from wifi network"
+    //% blockId=esp8266_detach block="disconnect from wifi network"
     //% parts="esp8266"
     export function detach(): void {
         modem.expectOK("+CWQAP")

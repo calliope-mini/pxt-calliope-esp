@@ -11,7 +11,7 @@
   "esp8266.setEncryption|block": "encrypt messages %encrypted",
   "esp8266.setServer|block": "set server |address %host|port %port",
   "esp8266.showDeviceInfo|block": "show device Info|on display %onDisplay",
-  "esp8266|block": "esp8266",
+  "esp8266|block": "ESP8266",
   "modem.enableDebug|block": "enable DEBUG %debug",
   "modem.expectOK|block": "check AT %command|response OK?",
   "modem.init|block": "initialize Modem|TX %tx|RX %rx|at baud rate %rate",
