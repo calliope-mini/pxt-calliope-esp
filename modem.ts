@@ -117,7 +117,7 @@ namespace modem {
      * @param {string} message the message to log
      */
     export function log(prefix: string, message: string): void {
-        if(!TX) return;
+        if(TX == null) return;
         basic.pause(100);
         serial.resetSerial();
         serial.writeLine(prefix + " " + message);
@@ -132,7 +132,7 @@ namespace modem {
      * @param {string} messages the messages to log to the console
      */
     export function logArray(prefix: string, messages: Array<string>): void {
-        if(!TX) return;
+        if(TX == null) return;
         basic.pause(100);
         serial.resetSerial();
         for (let i = 0; i < messages.length; i++) {

@@ -71,9 +71,9 @@ assert("network not found", !esp8266.isAttached());
 
 esp8266.attach(SSID, PASSWORD);
 assert("network attach", esp8266.isAttached());
-esp8266.sendTCP(SERVER, PORT, MESSAGE);
+esp8266.send(MessageType.TCP, SERVER, PORT, MESSAGE);
 assert("TCP send", esp8266.sendOk());
-esp8266.sendUDP(SERVER, PORT+1, MESSAGE);
+esp8266.send(MessageType.UDP, SERVER, PORT+1, MESSAGE);
 assert("UDP send", esp8266.sendOk());
 esp8266.detach();
 assert("network detached", !esp8266.isAttached());

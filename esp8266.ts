@@ -85,34 +85,6 @@ namespace esp8266 {
     }
 
     /**
-     * Send a TCP message to the server.
-     * @param {string} address the server address
-     * @param {number} port the server port
-     * @param {string} message the data to send
-     */
-    //% weight=208
-    //% blockId=esp8266_sendtcp block="send TCP message|server %address|port %port|message %message"
-    //% blockExternalInputs=1
-    //% parts="esp8266"
-    export function sendTCP(address: string, port: number, message: string): void {
-        send(MessageType.TCP, address, port, message);
-    }
-
-    /**
-     * Send a UDP message to the server.
-     * @param {string} address the server address
-     * @param {number} port the server port
-     * @param {string} message the data to send
-     */
-    //% weight=208
-    //% blockId=esp8266_sendudp block="send UDP message|server %address|port %port|message %message"
-    //% blockExternalInputs=1
-    //% parts="esp8266"
-    export function sendUDP(address: string, port: number, message: string): void {
-        send(MessageType.UDP, address, port, message);
-    }
-
-    /**
      * Send a message via wifi.
      * @param {string} type send as TCP or UDP, eg: MessageType.TCP
      * @param {string} address the server address
@@ -123,6 +95,7 @@ namespace esp8266 {
     //% blockId=esp8266_send block="send raw message|type %type|server %address|port %port|message %message"
     //% blockExternalInputs=1
     //% parts="esp8266"
+    //% advanced=true
     export function send(type: MessageType, address: string, port: number, message: string): void {
         ERROR = true;
         let messageType = "";
@@ -188,8 +161,7 @@ namespace esp8266 {
      * @param message the message to send
      */
     //% weight=55
-    //% blockId=esp8266_send block="send raw message|message %message"
-    //% blockExternalInputs=1
+    //% blockId=esp8266_sendEncoded block="send encoded message|message %message"
     //% advanced=true
     //% parts="esp8266"
     export function sendEncoded(message: string): void {
@@ -259,6 +231,20 @@ namespace esp8266 {
     }
 
     /**
+     * Show Calliope device id and the secret for communication.
+     */
+    //% blockId=bc95_showdeviceinfo block="show device Info|on display %onDisplay"
+    //% parts="bc95"
+    //% advanced=true
+    export function showDeviceInfo(onDisplay: boolean = true): void {
+        let deviceId = numberToHex(getDeviceId(1));
+        let deviceSecret = numberToHex(getDeviceId(0));
+        modem.log("ID", deviceId);
+        modem.log("SECRET", deviceSecret);
+        if (onDisplay) basic.showString("id:" + deviceId + " secret:" + deviceSecret, 250);
+    }
+
+    /**
      * Set encryption mode. Whether data should be AES encrypted. See #showDeviceInfo
      * how to identify the device ID and secret.
      * ATTENTION: Only works if BLUETOOTH is enabled!
@@ -272,12 +258,28 @@ namespace esp8266 {
         ENCRYPTED = encrypted;
     }
 
+    // converts a number into a readable hex-string representation
+    function numberToHex(n: number): string {
+        return stringToHex(numberToString(n));
+    }
+
     // converts a number into a binary string representation
     function numberToString(n: number): string {
         return String.fromCharCode((n >> 24) & 0xff) +
             String.fromCharCode((n >> 16) & 0xff) +
             String.fromCharCode((n >> 8) & 0xff) +
             String.fromCharCode(n & 0xff);
+    }
+
+    // helper function to convert a string into a hex representation usable by the bc95 module
+    export function stringToHex(s: string): string {
+        const l = "0123456789ABCDEF";
+        let r = "";
+        for (let i = 0; i < s.length; i++) {
+            let c = s.charCodeAt(i);
+            r = r + l.substr((c >> 4), 1) + l.substr((c & 0x0f), 1);
+        }
+        return r;
     }
 
     //% shim=esp8266::getDeviceId

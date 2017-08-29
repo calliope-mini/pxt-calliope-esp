@@ -10,6 +10,8 @@ with PXT for Micro:bit.
 
 ## Wiring the module
 
+![Calliope mini -> ESP8266 wiring](wiring.png)
+
 ## Testing
 
 - Modify `tests.ts` to send packages to your own server.
@@ -74,7 +76,8 @@ esp8266.attach(
     "ubirch",
     "mypassword"
 )
-esp8266.sendUDP(
+esp8266.send(
+    MessageType.TCP,
     "46.23.86.61",
     9090,
     "HELLO WE ARE CONNECTED!"
