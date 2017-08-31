@@ -89,6 +89,8 @@ esp8266.send(
 - PXT/calliope
 - PXT/microbit
 
+Depends on [pxt-calliope-modem](https://github.com/calliope-mini/pxt-calliope-modem).
+
 Author: Matthias L. Jugel ([@thinkberg](https://twitter.com/thinkberg))
 
 ## License

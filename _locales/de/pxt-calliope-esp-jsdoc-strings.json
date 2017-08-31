@@ -17,20 +17,5 @@
   "esp8266.setServer": "Konfiguriert den Server, an den kodierte Nachrichten gesendet werden.",
   "esp8266.setServer|param|host": "Die Adresse des Servers, zu dem kodierte Nachrichten gesendet werden.",
   "esp8266.setServer|param|port": "Der Port des Servers, zu dem kodierte Nachrichten gesendet werden, z.B. 9090.",
-  "esp8266.showDeviceInfo": "Zeigt die Geräte ID und den Schlüssel an.",
-  "modem": "Modem Funktionaliät.",
-  "modem.enableDebug": "Zeige AT-Kommandos auf der seriellen Konsole.",
-  "modem.expectOK": "Sende ein AT Kommando an das Modul und erwarte OK. Nur den Befehl ohne AT Prefix, z.B. AT(\"+CGMI=?\"). Gibt Erfolg zurück.",
-  "modem.expectOK|param|command": "AT Kommando ohne Prefix",
-  "modem.init": "Initialisiere Modem mit den entsprechenden Seriellen Pins.",
-  "modem.log": "Log a message to the USB console log.\n@param {string} prefix a prefix to be prepended to the line\n@param {string} message the message to log",
-  "modem.logArray": "Log an array of messages to the USB console log.\n@param {string} prefix a prefix to be prepended to the line\n@param {string} messages the messages to log to the console",
-  "modem.pushAT": "Sende ein AT Kommando an das Modul. Nur den Befehl, ohne den AT Prefix, z.B. \"+CIMI\". Ignoriert das Ergebnis.",
-  "modem.pushAT|param|command": "AT Kommando ohne Prefix",
-  "modem.receiveResponse": "Warte auf eine Antwort vom Modem, bis die Bedingung erfüllt ist.",
-  "modem.sendAT": "Sende ein AT command und erwarte OK oder ERROR.",
-  "serial": "Serieller Anschluß.",
-  "serial.resetSerial": "Setze seriellen Port zurück auf USBTX/USBRX.",
-  "serial.setReceiveBufferSize": "Setze Empfangspuffergröße.",
-  "serial.setReceiveBufferSize|param|size": "Neue Größe des Empfangspuffers, z.B. 20."
+  "esp8266.showDeviceInfo": "Zeigt die Geräte ID und den Schlüssel an."
 }

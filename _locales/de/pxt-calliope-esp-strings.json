@@ -12,17 +12,5 @@
   "esp8266.setServer|block": "setze Serveradresse %host|Port %port",
   "esp8266.showDeviceInfo|block": "zeige Geräteinformationen auf dem Display %onDisplay",
   "esp8266|block": "ESP8266",
-  "modem.enableDebug|block": "zeige AT Kommandos %debug",
-  "modem.expectOK|block": "sende AT Kommando %command|Resultat OK?",
-  "modem.init|block": "initialisiere Modem|TX %tx|RX %rx|mit Baudrate %rate",
-  "modem.pushAT|block": "sende AT %command",
-  "modem.receiveResponse|block": "warte auf Antwort %cond",
-  "modem.sendAT|block": "sende AT %command und empfange",
-  "modem|block": "Modem",
-  "serial.resetSerial|block": "seriellen Port zurücksetzen",
-  "serial.setReceiveBufferSize|block": "setze Empfangspuffergrösse %size",
-  "serial|block": "seriell",
-  "{id:category}Esp8266": "ESP8266",
-  "{id:category}Modem": "Modem",
-  "{id:category}Serial": "Seriell"
+  "{id:category}Esp8266": "ESP8266"
 }

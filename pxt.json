@@ -4,15 +4,13 @@
     "description": "ESP8622 Wifi Module",
     "license": "MIT",
     "dependencies": {
-        "core": "*"
+        "core": "*",
+        "pxt-calliope-modem": "*"
     },
     "files": [
         "README.md",
         "esp8266.cpp",
         "esp8266.ts",
-        "modem.ts",
-        "ext_serial.cpp",
-        "ext_serial.ts",
         "_locales/de/pxt-calliope-esp-jsdoc-strings.json",
         "_locales/de/pxt-calliope-esp-strings.json"
     ],
