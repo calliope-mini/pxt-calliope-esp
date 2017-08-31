@@ -57,7 +57,8 @@ namespace esp8266 {
         if(modem.expectOK("+CWMODE=1")) {
             modem.pushAT("+CWJAP=\""+ssid+"\",\""+password+"\"");
             modem.receiveResponse((line: string) => {
-                return line == "OK" || line == "ERROR" || line == "FAIL";
+                //modem.log("~~~", line+": "+line.compare("OK"));
+                return line.compare("OK") == 0 || line.compare("ERROR") == 0 || line.compare("FAIL") == 0;
             });
         }
     }
@@ -70,7 +71,7 @@ namespace esp8266 {
     //% parts="esp8266"
     export function isAttached(ssid: string = null): boolean {
         let r = modem.sendAT("+CWJAP?");
-        return r.length >= 2 && r[r.length-2] != "No AP" && r[r.length-1] == "OK";
+        return r.length >= 2 && r[r.length-2].compare("No AP") != 0 && r[r.length-1].compare("OK") == 0;
 
     }
 
@@ -111,7 +112,7 @@ namespace esp8266 {
                 serial.writeString(message);
                 modem.receiveResponse((line: string) => {
                     // should be line == "SEND OK", but the simulator breaks, as serial.read() only returns OK
-                    return line.substr(line.length-2, 2) == "OK";
+                    return line.substr(line.length-2, 2).compare("OK") == 0;
                 });
                 ERROR = !modem.expectOK("+CIPCLOSE");
             }
@@ -185,7 +186,6 @@ namespace esp8266 {
                     encoded += String.fromCharCode(0xD9) + String.fromCharCode(message.length >> 8) + String.fromCharCode(message.length & 0xff);
                 } else {
                     // the BC95 module only supports a maximum payload of 512 bytes!
-                    ERROR = true;
                     return;
                 }
                 // add actual message
@@ -207,10 +207,10 @@ namespace esp8266 {
                     serial.writeString(header + encoded);
                     modem.receiveResponse((line: string) => {
                         // should be line == "SEND OK", but the simulator breaks, as serial.read() only returns OK
-                        return line.substr(line.length-2, 2) == "OK";
+                        return line.substr(line.length-2, 2).compare("OK") == 0;
                     });
-                    ERROR = !modem.expectOK("+CIPCLOSE");
                 }
+                ERROR = !modem.expectOK("+CIPCLOSE");
             }
 
         }
