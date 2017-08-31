@@ -126,8 +126,8 @@ namespace esp8266 {
      * @param port the port to send messages to, eg: 9090
      */
     //% weight=80
-    //% blockId=bc95_setserver block="set server |address %host|port %port"
-    //% parts="bc95"
+    //% blockId=esp8266_setserver block="set server |address %host|port %port"
+    //% parts="esp8266"
     export function setServer(host: string, port: number): void {
         SERVER = host;
         PORT = port;
@@ -185,7 +185,7 @@ namespace esp8266 {
                     packetLength = message.length + 3;
                     encoded += String.fromCharCode(0xD9) + String.fromCharCode(message.length >> 8) + String.fromCharCode(message.length & 0xff);
                 } else {
-                    // the BC95 module only supports a maximum payload of 512 bytes!
+                    // the module only supports a maximum payload of 512 bytes!
                     return;
                 }
                 // add actual message
@@ -233,8 +233,8 @@ namespace esp8266 {
     /**
      * Show Calliope device id and the secret for communication.
      */
-    //% blockId=bc95_showdeviceinfo block="show device Info|on display %onDisplay"
-    //% parts="bc95"
+    //% blockId=esp8266_showdeviceinfo block="show device Info|on display %onDisplay"
+    //% parts="esp8266"
     //% advanced=true
     export function showDeviceInfo(onDisplay: boolean = true): void {
         let deviceId = numberToHex(getDeviceId(1));
@@ -251,9 +251,9 @@ namespace esp8266 {
      * @param encrypted whether the data should be encrypted, eg: false
      */
     //% weight=20
-    //% blockId=bc95_setencrypted block="encrypt messages %encrypted"
+    //% blockId=esp8266_setencrypted block="encrypt messages %encrypted"
     //% advanced=true
-    //% parts="bc95"
+    //% parts="esp8266"
     export function setEncryption(encrypted: boolean = false) {
         ENCRYPTED = encrypted;
     }
@@ -271,7 +271,7 @@ namespace esp8266 {
             String.fromCharCode(n & 0xff);
     }
 
-    // helper function to convert a string into a hex representation usable by the bc95 module
+    // helper function to convert a string into a hex representation usable by the module
     export function stringToHex(s: string): string {
         const l = "0123456789ABCDEF";
         let r = "";
