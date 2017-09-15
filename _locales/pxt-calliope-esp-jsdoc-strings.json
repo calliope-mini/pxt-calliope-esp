@@ -7,15 +7,5 @@
   "esp8266.init|param|tx": "the new transmission pins, eg: SerialPin.C17",
   "esp8266.isAttached": "Check if we are attached to the wifi network.",
   "esp8266.send": "Send a message via wifi.\n@param {string} type send as TCP or UDP, eg: MessageType.TCP\n@param {string} address the server address\n@param {number} port the server port to send to, eg: 8080\n@param {string} message the actual data to send",
-  "esp8266.sendEncoded": "Send the actual message, encoded. Data is encoded in message pack format:\nINT[DeviceId]BYTES[Message]. The maximum message size is 504 bytes.\nIf messages are encrypted, the key is 16 bytes: [SECRET,ID,SECRET,ID].",
-  "esp8266.sendEncoded|param|message": "the message to send",
-  "esp8266.sendNumber": "Send a number to the backend server. Encodes key/value as a json message.",
-  "esp8266.sendOk": "Check if the last send operation was successful.\nAlso reset the status.",
-  "esp8266.sendString": "Send a string to the backend server. Encodes key/value as a json message.",
-  "esp8266.setEncryption": "Set encryption mode. Whether data should be AES encrypted. See #showDeviceInfo\nhow to identify the device ID and secret.\nATTENTION: Only works if BLUETOOTH is enabled!",
-  "esp8266.setEncryption|param|encrypted": "whether the data should be encrypted, eg: false",
-  "esp8266.setServer": "Configure the server to use for the NB-IoT messaging.",
-  "esp8266.setServer|param|host": "the IP address of a server to send messages to",
-  "esp8266.setServer|param|port": "the port to send messages to, eg: 9090",
-  "esp8266.showDeviceInfo": "Show Calliope device id and the secret for communication."
+  "esp8266.sendOk": "Check if the last send operation was successful.\nAlso reset the status."
 }

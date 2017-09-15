@@ -3,16 +3,16 @@
 // run pxt test & copy build/binary.hex to MINI drive
 
 namespace test_ESP8266 {
-    const SSID = "TEST";
-    const PASSWORD = "TEST12345";
-    const SERVER = "13.93.47.253";
+    const SSID = "urbanPlus";
+    const PASSWORD = "W1llkommenImGeusenOffice";
+    const SERVER = "46.23.86.61";
     const PORT = 9090; // UDP port is 9091 (+1)
     const MESSAGE = "{\"test\":123456}";
 
     // loop until button A is kept pressed
-    const LOOP = true;
+    const LOOP = false;
     // log AT commands to USB console
-    const DEBUG_AT = false;
+    const DEBUG_AT = true;
 
     //% shim=pxtrt::panic
     function panic(code2: number): void {
@@ -31,7 +31,6 @@ namespace test_ESP8266 {
 
     modem.enableDebug(DEBUG_AT);
     esp8266.init(SerialPin.C17, SerialPin.C16, BaudRate.BaudRate115200);
-    esp8266.showDeviceInfo(false);
 
     // only check this if we are not going to loop later
     if (!LOOP) {
@@ -85,11 +84,10 @@ namespace test_ESP8266 {
     // try high level functions
     esp8266.attach(SSID, PASSWORD);
     assert("network attach", esp8266.isAttached());
-    esp8266.setServer(SERVER, PORT + (LOOP ? 0 : 1));
     do {
-        esp8266.sendNumber("temp", input.temperature());
+        esp8266.send(MessageType.UDP, SERVER, PORT, "{\"temp\":"+ input.temperature()+"}");
         assert("message temp send", esp8266.sendOk());
-        esp8266.sendNumber("light", input.lightLevel());
+        esp8266.send(MessageType.UDP, SERVER, PORT, "{\"light\":"+ input.lightLevel()+"}");
         assert("message light send", esp8266.sendOk());
         basic.pause(10000);
     } while (LOOP);

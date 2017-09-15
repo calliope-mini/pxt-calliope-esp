@@ -9,7 +9,6 @@
     },
     "files": [
         "README.md",
-        "esp8266.cpp",
         "esp8266.ts",
         "_locales/de/pxt-calliope-esp-jsdoc-strings.json",
         "_locales/de/pxt-calliope-esp-strings.json"
