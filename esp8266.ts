@@ -92,7 +92,6 @@ namespace esp8266 {
     //% blockId=esp8266_send block="send raw message|type %type|server %address|port %port|message %message"
     //% blockExternalInputs=1
     //% parts="esp8266"
-    //% advanced=true
     export function send(type: MessageType, address: string, port: number, message: string): void {
         ERROR = true;
         let messageType = "";
