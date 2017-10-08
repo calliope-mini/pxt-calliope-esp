@@ -8,6 +8,11 @@ with PXT for Micro:bit.
 > to directly use it with the Calliope mini, it will not connect and the Calliope mini resets
 > due to too much power drawn.
 
+> **Update Firmware!** You may want to update the ESP with the latest firmware. The add-on requires at least v2.0 of the 
+> AT command firmeware. You can find the firmware download link here: 
+> [http://www.electrodragon.com/w/ESP8266_AT-Command_firmware](http://www.electrodragon.com/w/ESP8266_AT-Command_firmware) 
+> under Espressif AT Commands Firmware.
+
 ## Wiring the module
 
 ![Calliope mini -> ESP8266 wiring](wiring.png)
