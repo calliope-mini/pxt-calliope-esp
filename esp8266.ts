@@ -1,8 +1,8 @@
 /**
  * Functions for the ESP8266 Wifi module.
- *
- * @author Matthias L. Jugel
  */
+
+// @author Matthias L. Jugel
 
 enum MessageType {
     UDP,

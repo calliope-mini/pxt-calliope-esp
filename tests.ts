@@ -3,8 +3,8 @@
 // run pxt test & copy build/binary.hex to MINI drive
 
 namespace test_ESP8266 {
-    const SSID = "urbanPlus";
-    const PASSWORD = "W1llkommenImGeusenOffice";
+    const SSID = "BCW";
+    const PASSWORD = "";
     const SERVER = "46.23.86.61";
     const PORT = 9090; // UDP port is 9091 (+1)
     const MESSAGE = "{\"test\":123456}";

@@ -1,4 +1,5 @@
 {
+  "MessageType": "Functions for the ESP8266 Wifi module.",
   "esp8266.attach": "Connect to the wifi network.",
   "esp8266.detach": "Disconnect from the wifi network.",
   "esp8266.init": "Initialize ESP8266 module. The serial port and generic settings.\nFirst connects to the module, using 9600 baud, 8N1 and sets explicit\ntarget settings and resets the module.",
