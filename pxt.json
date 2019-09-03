@@ -5,7 +5,7 @@
     "license": "MIT",
     "dependencies": {
         "core": "*",
-        "pxt-calliope-modem": "v1.0.2"
+        "pxt-calliope-modem": "1.0.2"
     },
     "files": [
         "README.md",
